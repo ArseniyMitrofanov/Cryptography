@@ -13,6 +13,7 @@
 		EA580F3C2996AD550076F63B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EA580F3A2996AD550076F63B /* Main.storyboard */; };
 		EA580F3E2996AD580076F63B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EA580F3D2996AD580076F63B /* Assets.xcassets */; };
 		EA580F412996AD580076F63B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EA580F3F2996AD580076F63B /* LaunchScreen.storyboard */; };
+		EA580F492996B21F0076F63B /* Lab1VC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA580F482996B21F0076F63B /* Lab1VC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		EA580F3D2996AD580076F63B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EA580F402996AD580076F63B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EA580F422996AD580076F63B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EA580F482996B21F0076F63B /* Lab1VC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lab1VC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +65,7 @@
 				EA580F3D2996AD580076F63B /* Assets.xcassets */,
 				EA580F3F2996AD580076F63B /* LaunchScreen.storyboard */,
 				EA580F422996AD580076F63B /* Info.plist */,
+				EA580F482996B21F0076F63B /* Lab1VC.swift */,
 			);
 			path = Cryptography;
 			sourceTree = "<group>";
@@ -138,6 +141,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA580F492996B21F0076F63B /* Lab1VC.swift in Sources */,
 				EA580F392996AD550076F63B /* ViewController.swift in Sources */,
 				EA580F352996AD550076F63B /* AppDelegate.swift in Sources */,
 				EA580F372996AD550076F63B /* SceneDelegate.swift in Sources */,
