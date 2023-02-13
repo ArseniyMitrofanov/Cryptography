@@ -11,37 +11,41 @@ class ViewController: UIViewController {
     let lab1: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = .gray
+        button.backgroundColor = .red
         button.layer.cornerRadius = 30
         button.setTitle("Lab 1", for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 35)
+        button.setTitleColor(.yellow, for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 40)
         return button
     }()
     let lab2: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = .gray
+        button.backgroundColor = .yellow
         button.layer.cornerRadius = 30
         button.setTitle("Lab 2", for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 35)
+        button.setTitleColor(.red, for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 40)
         return button
     }()
     let lab3: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = .gray
+        button.backgroundColor = .green
         button.layer.cornerRadius = 30
         button.setTitle("Lab 3", for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 35)
+        button.setTitleColor(.blue, for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 40)
         return button
     }()
     let lab4: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = .gray
+        button.backgroundColor = .blue
         button.layer.cornerRadius = 30
         button.setTitle("Lab 4", for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 35)
+        button.setTitleColor(.green, for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 40)
         return button
     }()
     let stackView: UIStackView = {

@@ -8,7 +8,8 @@
 import UIKit
 
 class Lab1VC: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
-    let alphabet = ["А","Б","В","Г","Д","Е","Ё","Ж","З","И","Й","К","Л","М","Н","О","П","Р","С","Т","У","Ф","Х","Ц","Ч","Ш","Щ","Ь","Ы","Ъ","Э","Ю","Я",]
+    let pathWithFileName = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+    let alphabet: [Character] = ["А","Б","В","Г","Д","Е","Ё","Ж","З","И","Й","К","Л","М","Н","О","П","Р","С","Т","У","Ф","Х","Ц","Ч","Ш","Щ","Ъ","Ы","Ь","Э","Ю","Я",]
     let pickerData1: [String] = ["шифрование","дешифрование","Виженер","децимации"]
     var isEncryption = true
     var isVigenere = true
@@ -47,6 +48,7 @@ class Lab1VC: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPic
     override func viewDidLoad() {
         super.viewDidLoad()
         makeLayout()
+        readFile()
         tryButton.addTarget(self, action: #selector(tryTapped), for: .touchUpInside)
         pickerView.delegate = self
         pickerView.dataSource = self
@@ -119,38 +121,98 @@ class Lab1VC: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPic
         }
     }
     func readFile()-> String{
-        let documentDirURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
-                var input = ""
-                let fileURL = documentDirURL.appendingPathComponent("output").appendingPathExtension("txt")
-                do{
-                    input = try String(contentsOf: fileURL)
-                } catch{
-                    print("Error")
-                }
-        print(fileURL.path())
-        return input
+        var string = ""
+        let pathWithFileName = self.pathWithFileName.appendingPathComponent("f.txt")
+        do{
+            string = try String(contentsOf: pathWithFileName)
+        } catch{
+            print("Error")
+        }
+        print("_rrrrrr_")
+        print(pathWithFileName.path())
+        textView.text = string
+        return string
     }
     func writeFile(string: String){
-        let documentDirURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
-                let fileURL = documentDirURL.appendingPathComponent("output").appendingPathExtension("txt")
-                do{
-                     try string.write(to: fileURL, atomically: true, encoding: String.Encoding.utf8)
-                 } catch{
-                     print("Error")
-                 }
+        let pathWithFileName = self.pathWithFileName.appendingPathComponent("f.txt")
+        print("_wwwwww_")
+        print(pathWithFileName.path())
+        do{
+            try string.write(to: pathWithFileName, atomically: true, encoding: String.Encoding.utf8)
+        } catch{
+            print("Error")
+        }
+        textView.text = string
+    }
+    func encryptVigenere(plaintext: String){
+        var ciphertext = ""
+        var keyIndex = 0
+        for symbol in plaintext {
+            let keyCharacter: Character = key[key.index(key.startIndex, offsetBy: keyIndex)]
+            if alphabet.contains(symbol) && alphabet.contains(keyCharacter){
+                ciphertext.append(alphabet[(alphabet.firstIndex(of: symbol)! + alphabet.firstIndex(of: keyCharacter)!)%alphabet.count])
+            }else{
+                ciphertext.append(symbol)
+            }
+            keyIndex += 1
+            if (keyIndex)==key.count{
+                keyIndex = 0
+            }
+        }
+        writeFile(string: ciphertext)
+    }
+    func decryptVigenere(ciphertext: String){
+        var plaintext = ""
+        var keyIndex = 0
+        for symbol in ciphertext {
+            let keyCharacter: Character = key[key.index(key.startIndex, offsetBy: keyIndex)]
+            if alphabet.contains(symbol) && alphabet.contains(keyCharacter){
+                plaintext.append(alphabet[(alphabet.firstIndex(of: symbol)! - alphabet.firstIndex(of: keyCharacter)! + alphabet.count)%alphabet.count])
+            }else{
+                plaintext.append(symbol)
+            }
+            keyIndex += 1
+            if (keyIndex)==key.count{
+                keyIndex = 0
+            }
+        }
+        writeFile(string: plaintext)
+    }
+    //АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ
+    func decimation(text: String){
+        var result = ""
+        if Int(self.key) != nil{
+            let key = Int(self.key)
+            for symbol in text {
+                if alphabet.contains(symbol){
+                    result.append(alphabet[(alphabet.firstIndex(of: symbol)! * key!)%alphabet.count])
+                }else{
+                    result.append(symbol)
+                }
+            }
+            writeFile(string: result)
+        }else{
+            print("key error")
+        }
     }
     @objc func tryTapped(){
+        textFieldShouldReturn(keyTextField)
         if isEncryption{
             if isVigenere{
                 encryptVigenere(plaintext: readFile().uppercased())
+            }else{
+                decimation(text: readFile().uppercased())
+            }
+        }else{
+            if isVigenere{
+                decryptVigenere(ciphertext: readFile().uppercased())
+            }else{
+                decimation(text: readFile().uppercased())
             }
         }
     }
-    
-    func encryptVigenere(plaintext: String){
-        print(plaintext)
-    }
-    }
-    
+}
+
+
 
 
