@@ -8,44 +8,53 @@
 import UIKit
 
 class ViewController: UIViewController {
+    let background: UIImageView = {
+        let imageView = UIImageView(image: UIImage(named: "back"))
+        imageView.contentMode = .scaleAspectFill
+        return imageView
+    }()
     let lab1: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = .red
-        button.layer.cornerRadius = 30
-        button.setTitle("Lab 1", for: .normal)
-        button.setTitleColor(.yellow, for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 40)
+        button.setBackgroundImage(UIImage(named: "key"), for: .normal)
+        button.setTitle("\n\n      Lab 1", for: .normal)
+        button.setTitleColor(.blue, for: .normal)
+        button.titleLabel?.font = .italicSystemFont(ofSize: 40)
+        button.titleLabel?.textAlignment = .left
+        button.titleLabel?.numberOfLines = 10
         return button
     }()
     let lab2: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = .yellow
-        button.layer.cornerRadius = 30
-        button.setTitle("Lab 2", for: .normal)
-        button.setTitleColor(.red, for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 40)
+        button.setBackgroundImage(UIImage(named: "key"), for: .normal)
+        button.setTitle("\n\n      Lab 2", for: .normal)
+        button.setTitleColor(.blue, for: .normal)
+        button.titleLabel?.font = .italicSystemFont(ofSize: 40)
+        button.titleLabel?.textAlignment = .left
+        button.titleLabel?.numberOfLines = 10
         return button
     }()
     let lab3: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = .green
-        button.layer.cornerRadius = 30
-        button.setTitle("Lab 3", for: .normal)
+        button.setBackgroundImage(UIImage(named: "key"), for: .normal)
+        button.setTitle("\n\n      Lab 3", for: .normal)
         button.setTitleColor(.blue, for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 40)
+        button.titleLabel?.font = .italicSystemFont(ofSize: 40)
+        button.titleLabel?.textAlignment = .left
+        button.titleLabel?.numberOfLines = 10
         return button
     }()
     let lab4: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = .blue
-        button.layer.cornerRadius = 30
-        button.setTitle("Lab 4", for: .normal)
-        button.setTitleColor(.green, for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 40)
+        button.setBackgroundImage(UIImage(named: "key"), for: .normal)
+        button.setTitle("\n\n      Lab 4", for: .normal)
+        button.setTitleColor(.blue, for: .normal)
+        button.titleLabel?.font = .italicSystemFont(ofSize: 40)
+        button.titleLabel?.textAlignment = .left
+        button.titleLabel?.numberOfLines = 10
         return button
     }()
     let stackView: UIStackView = {
@@ -65,16 +74,18 @@ class ViewController: UIViewController {
     }
     
     func makeLayout(){
+        background.frame = self.view.frame
+        self.view.addSubview(background)
         self.view.addSubview(stackView)
         stackView.addArrangedSubview(lab1)
         stackView.addArrangedSubview(lab2)
         stackView.addArrangedSubview(lab3)
         stackView.addArrangedSubview(lab4)
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            stackView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 70),
             stackView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
-            stackView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
-            stackView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+            stackView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
+            stackView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
         ])
     }
     @objc func lab1Tapped(){

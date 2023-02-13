@@ -8,7 +8,14 @@
 import UIKit
 
 class Lab1VC: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
-    let pathWithFileName = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+    let background: UIImageView = {
+        let imageView = UIImageView(image: UIImage(named: "back"))
+        imageView.contentMode = .scaleAspectFill
+        return imageView
+    }()
+    let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
+    let urlInput = URL(filePath: "/Users/arsenij/Documents/input.txt")
+    let urlOutput = URL(filePath: "/Users/arsenij/Documents/output.txt")
     let alphabet: [Character] = ["А","Б","В","Г","Д","Е","Ё","Ж","З","И","Й","К","Л","М","Н","О","П","Р","С","Т","У","Ф","Х","Ц","Ч","Ш","Щ","Ъ","Ы","Ь","Э","Ю","Я",]
     let pickerData1: [String] = ["шифрование","дешифрование","Виженер","децимации"]
     var isEncryption = true
@@ -26,13 +33,19 @@ class Lab1VC: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPic
         textField.placeholder = "Ключ"
         return textField
     }()
+    let keyLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 3
+        return label
+    }()
     let tryButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.backgroundColor = .systemBlue
         button.layer.cornerRadius = 10
         button.setTitle("Try", for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 20)
+        button.titleLabel?.font = .systemFont(ofSize: 30)
         button.isEnabled = false
         button.isHidden = true
         return button
@@ -40,9 +53,13 @@ class Lab1VC: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPic
     let textView:UITextView = {
         let view = UITextView()
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.layer.cornerRadius = 10
+//        view.clipsToBounds
         view.font = .systemFont(ofSize: 20)
         view.layer.borderWidth = 1
         view.layer.borderColor = UIColor.lightGray.cgColor
+        view.backgroundColor = .white
+        view.alpha = 0.7
         return view
     }()
     override func viewDidLoad() {
@@ -55,6 +72,9 @@ class Lab1VC: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPic
         keyTextField.delegate = self
     }
     func makeLayout(){
+        background.frame = self.view.frame
+        self.view.addSubview(background)
+        self.view.addSubview(keyLabel)
         self.view.addSubview(keyTextField)
         self.view.addSubview(pickerView)
         self.view.addSubview(tryButton)
@@ -63,14 +83,17 @@ class Lab1VC: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPic
             keyTextField.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 30),
             keyTextField.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
             keyTextField.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
-            pickerView.topAnchor.constraint(equalTo: keyTextField.bottomAnchor),
+            keyLabel.topAnchor.constraint(equalTo: keyTextField.bottomAnchor, constant: 5),
+            keyLabel.leadingAnchor.constraint(equalTo: keyTextField.leadingAnchor),
+            keyLabel.trailingAnchor.constraint(equalTo: keyTextField.trailingAnchor),
+            pickerView.topAnchor.constraint(equalTo: keyTextField.bottomAnchor,constant: 25),
             pickerView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 0),
             pickerView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -0),
             pickerView.heightAnchor.constraint(equalToConstant: 150),
-            tryButton.topAnchor.constraint(equalTo: pickerView.bottomAnchor),
+            tryButton.topAnchor.constraint(equalTo: pickerView.bottomAnchor, constant: -25),
             tryButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
             tryButton.widthAnchor.constraint(equalToConstant: 100),
-            textView.topAnchor.constraint(equalTo: tryButton.bottomAnchor, constant: 20),
+            textView.topAnchor.constraint(equalTo: tryButton.bottomAnchor, constant: 15),
             textView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
             textView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
             textView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
@@ -82,6 +105,7 @@ class Lab1VC: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPic
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.key = textField.text?.uppercased() ?? ""
         textField.text = self.key
+        keyLabel.text = self.key
         if key != ""{
             tryButton.isEnabled = true
             tryButton.isHidden = false
@@ -122,23 +146,17 @@ class Lab1VC: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPic
     }
     func readFile()-> String{
         var string = ""
-        let pathWithFileName = self.pathWithFileName.appendingPathComponent("f.txt")
         do{
-            string = try String(contentsOf: pathWithFileName)
+            string = try String(contentsOf: urlInput, encoding: .utf8)
         } catch{
-            print("Error")
+            print("read Error")
         }
-        print("_rrrrrr_")
-        print(pathWithFileName.path())
         textView.text = string
         return string
     }
     func writeFile(string: String){
-        let pathWithFileName = self.pathWithFileName.appendingPathComponent("f.txt")
-        print("_wwwwww_")
-        print(pathWithFileName.path())
         do{
-            try string.write(to: pathWithFileName, atomically: true, encoding: String.Encoding.utf8)
+            try string.write(to: urlOutput, atomically: true, encoding: String.Encoding.utf8)
         } catch{
             print("Error")
         }
