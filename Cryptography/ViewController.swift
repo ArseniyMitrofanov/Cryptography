@@ -88,6 +88,7 @@ class ViewController: UIViewController {
             stackView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
         ])
     }
+    
     @objc func lab1Tapped(){
         let vc = Lab1VC()
         vc.view.backgroundColor = .white

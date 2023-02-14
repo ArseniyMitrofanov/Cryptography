@@ -54,7 +54,7 @@ class Lab1VC: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPic
         let view = UITextView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.cornerRadius = 10
-//        view.clipsToBounds
+        //        view.clipsToBounds
         view.font = .systemFont(ofSize: 20)
         view.layer.borderWidth = 1
         view.layer.borderColor = UIColor.lightGray.cgColor
@@ -151,7 +151,6 @@ class Lab1VC: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPic
         } catch{
             print("read Error")
         }
-        textView.text = string
         return string
     }
     func writeFile(string: String){
@@ -167,14 +166,18 @@ class Lab1VC: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPic
         var keyIndex = 0
         for symbol in plaintext {
             let keyCharacter: Character = key[key.index(key.startIndex, offsetBy: keyIndex)]
-            if alphabet.contains(symbol) && alphabet.contains(keyCharacter){
-                ciphertext.append(alphabet[(alphabet.firstIndex(of: symbol)! + alphabet.firstIndex(of: keyCharacter)!)%alphabet.count])
+            if alphabet.contains(keyCharacter){
+                if alphabet.contains(symbol){
+                    ciphertext.append(alphabet[(alphabet.firstIndex(of: symbol)! + alphabet.firstIndex(of: keyCharacter)!)%alphabet.count])
+                    keyIndex += 1
+                    if (keyIndex)==key.count{
+                        keyIndex = 0
+                    }
+                }else{
+                    ciphertext.append(symbol)
+                }
             }else{
-                ciphertext.append(symbol)
-            }
-            keyIndex += 1
-            if (keyIndex)==key.count{
-                keyIndex = 0
+                showKeyAllert()
             }
         }
         writeFile(string: ciphertext)
@@ -184,14 +187,18 @@ class Lab1VC: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPic
         var keyIndex = 0
         for symbol in ciphertext {
             let keyCharacter: Character = key[key.index(key.startIndex, offsetBy: keyIndex)]
-            if alphabet.contains(symbol) && alphabet.contains(keyCharacter){
-                plaintext.append(alphabet[(alphabet.firstIndex(of: symbol)! - alphabet.firstIndex(of: keyCharacter)! + alphabet.count)%alphabet.count])
-            }else{
-                plaintext.append(symbol)
-            }
-            keyIndex += 1
-            if (keyIndex)==key.count{
-                keyIndex = 0
+            if alphabet.contains(keyCharacter) {
+                if alphabet.contains(symbol){
+                    plaintext.append(alphabet[(alphabet.firstIndex(of: symbol)! - alphabet.firstIndex(of: keyCharacter)! + alphabet.count)%alphabet.count])
+                    keyIndex += 1
+                    if (keyIndex)==key.count{
+                        keyIndex = 0
+                    }
+                }else{
+                    plaintext.append(symbol)
+                }
+            }else {
+                showKeyAllert()
             }
         }
         writeFile(string: plaintext)
@@ -199,7 +206,7 @@ class Lab1VC: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPic
     //АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ
     func decimation(text: String){
         var result = ""
-        if Int(self.key) != nil{
+        if (Int(self.key) != nil)&&(checkKeys(k: Int(self.key)!, n: 33) == 1){
             let key = Int(self.key)
             for symbol in text {
                 if alphabet.contains(symbol){
@@ -210,8 +217,25 @@ class Lab1VC: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPic
             }
             writeFile(string: result)
         }else{
-            print("key error")
+            showKeyAllert()
         }
+    }
+    func showKeyAllert(){
+        let alert = UIAlertController(title: "Ошибка", message: "Ключ содержит недопустимое значение", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ок", style: .cancel, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
+    func checkKeys(k: Int, n:  Int)->Int{
+        var a = k
+        var b = n
+        while (a != 0)&&(b != 0) {
+            if a > b {
+                a %= b
+            }else{
+                b %= a
+            }
+        }
+        return (a+b)
     }
     @objc func tryTapped(){
         textFieldShouldReturn(keyTextField)
