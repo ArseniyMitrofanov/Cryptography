@@ -54,7 +54,6 @@ class Lab1VC: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPic
         let view = UITextView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.cornerRadius = 10
-        //        view.clipsToBounds
         view.font = .systemFont(ofSize: 20)
         view.layer.borderWidth = 1
         view.layer.borderColor = UIColor.lightGray.cgColor

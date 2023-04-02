@@ -70,6 +70,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         makeLayout()
         lab1.addTarget(self, action: #selector(lab1Tapped), for: .touchUpInside)
+        lab2.addTarget(self, action: #selector(lab2Tapped), for: .touchUpInside)
         
     }
     
@@ -91,6 +92,13 @@ class ViewController: UIViewController {
     
     @objc func lab1Tapped(){
         let vc = Lab1VC()
+        vc.view.backgroundColor = .white
+        let backBarButtonItem = UIBarButtonItem(title: "Назад", style: .plain, target: nil, action: nil)
+        navigationItem.backBarButtonItem = backBarButtonItem
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    @objc func lab2Tapped(){
+        let vc = Lab2VC()
         vc.view.backgroundColor = .white
         let backBarButtonItem = UIBarButtonItem(title: "Назад", style: .plain, target: nil, action: nil)
         navigationItem.backBarButtonItem = backBarButtonItem
